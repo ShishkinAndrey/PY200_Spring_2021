@@ -200,18 +200,15 @@ class LinkedList:
         raise AttributeError(f'{data.__class__.__name__} is not iterable')
 
 if __name__ == '__main__':
-    ll = LinkedList([1,2,3,4])
-    # l[1] = 'w'
-    # l.append('e')
-    # l.insert(8,'t')
-    # l.clear()
-    # l.insert(8, 't')
-    # l.sort()
-    # l.remove('s')
-    # print(l[::])
-    print(repr(ll))
-
-
+    ll = LinkedList([1,2, 3,4])
+    # print(ll[::-1])
+    ll.append(5)
+    # print(ll)
+    ll.remove(3)
+    print(ll)
+    print(ll.index(5))
+    ll.sort()
+    print(ll)
 
 
 
