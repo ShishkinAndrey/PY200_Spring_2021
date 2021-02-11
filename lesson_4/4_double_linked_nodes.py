@@ -31,6 +31,12 @@ class Node:
         self.value = value
         self.next = next_  # Вызывается сеттер
 
+    def _check_node(self, node_):
+        if not isinstance(node_, self.__class__) and node_ is not None:
+            msg = f"Устанавливаемое значение должно быть экземпляром класса {self.__class__.__name__} " \
+                  f"или None, не {node_.__class__.__name__}"
+            raise TypeError(msg)
+
     @property
     def next(self):
         """Getter возвращает следующий узел связного списка"""
@@ -39,10 +45,7 @@ class Node:
     @next.setter
     def next(self, next_: Optional['Node']):
         """Setter проверяет и устанавливает следующий узел связного списка"""
-        if not isinstance(next_, self.__class__) and next_ is not None:
-            msg = f"Устанавливаемое значение должно быть экземпляром класса {self.__class__.__name__} " \
-                  f"или None, не {next_.__class__.__name__}"
-            raise TypeError(msg)
+        self._check_node(next_)
         self.__next = next_
 
     def __repr__(self):
@@ -59,12 +62,22 @@ class DoubleLinkedNode(Node):
                  next_: Optional['Node'] = None,
                  prev: Optional['Node'] = None):
         # ToDo расширить возможности базового конструтора с учетом особенностей двусвязного списка
-        ...
+        super().__init__(value, next_)
+        self.prev = prev
+
+    @property
+    def prev(self):
+        return self.__prev
+
+    @prev.setter
+    def prev(self, prev_node : Optional['Node']):
+        self._check_node(prev_node)
+        self.__prev = prev_node
 
     def __repr__(self) -> str:
         """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
         # ToDo перегрузить метод
-        ...
+        return f'Node({self.value}, next_={None}, prev={None})'
 
 
 if __name__ == '__main__':
@@ -77,6 +90,8 @@ if __name__ == '__main__':
     head = first_node
     first_node.next = second_node
     second_node.prev = first_node
+
+
 
     print(first_node.next)
     print(second_node.prev)
