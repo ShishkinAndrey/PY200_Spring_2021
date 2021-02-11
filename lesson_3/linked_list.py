@@ -149,7 +149,7 @@ class LinkedList:
                 return i
             else:
                 current_node = current_node.next
-        raise ValueError(f'{value} not in list')
+        raise ValueError(f'{value} not in {self.__class__.__name__}')
 
     def remove(self, value: Any) -> None:
         current_node = self.head
@@ -179,14 +179,15 @@ class LinkedList:
                     correct_compare = True
                 current_elem = current_elem.next
 
-    def is_iterable(self, data) -> bool:
+    @staticmethod
+    def is_iterable(data) -> bool:
         """Метод для проверки является ли объект итерируемым"""
         if hasattr(data, '__iter__'):
             return True
         raise AttributeError(f'{data.__class__.__name__} is not iterable')
 
 if __name__ == '__main__':
-    ll = LinkedList([1,2, 3,4])
+    ll = LinkedList('abcdef')
     # print(ll[::-1])
     # ll.append(5)
     # print(ll)
@@ -198,7 +199,7 @@ if __name__ == '__main__':
     # ll[1]=14
     # ll.insert(2,25)
     # print(ll.index(4))
-    ll.remove(2)
+    # ll.remove(2)
     print(ll)
 
 
