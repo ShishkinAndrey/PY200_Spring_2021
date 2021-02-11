@@ -70,7 +70,7 @@ class DoubleLinkedNode(Node):
         return self.__prev
 
     @prev.setter
-    def prev(self, prev_node : Optional['Node']):
+    def prev(self, prev_node: Optional['Node']):
         self._check_node(prev_node)
         self.__prev = prev_node
 
@@ -90,8 +90,6 @@ if __name__ == '__main__':
     head = first_node
     first_node.next = second_node
     second_node.prev = first_node
-
-
 
     print(first_node.next)
     print(second_node.prev)
