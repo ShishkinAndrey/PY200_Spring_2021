@@ -71,6 +71,7 @@ class LinkedList:
         return self.__len
 
     def __getitem__(self, item: int) -> Any:
+        print('Вызван __getitem__')
         if isinstance(item, slice):
             start, stop, step = item.indices(len(self))
             return [self[i] for i in range(start, stop, step)]
@@ -85,12 +86,14 @@ class LinkedList:
         current_node.value = value
 
     def __check_index(self, index) -> None:
+        print('Вызван __check_index')
         if not isinstance(index, int):
             raise TypeError()
         elif abs(index) > self.__len:
             raise IndexError()
 
     def __step_by_step_to_node(self, index) -> 'Node':
+        print('Вызван __step_by_step_to_node')
         current_node = self.head
         for _ in range(index):
             current_node = current_node.next
@@ -150,12 +153,10 @@ class LinkedList:
 
     def remove(self, value: Any) -> None:
         current_node = self.head
-        left_node = self.head
         search_result = False
         for i in range(self.__len):
             if current_node.value == value:
-                for _ in range(i-1):
-                    left_node = left_node.next
+                left_node = self.__step_by_step_to_node(i-1)
                 next_node = current_node.next
                 current_node.value = None
                 self.__linked_nodes(left_node, next_node)
@@ -178,7 +179,6 @@ class LinkedList:
                     correct_compare = True
                 current_elem = current_elem.next
 
-
     def is_iterable(self, data) -> bool:
         """Метод для проверки является ли объект итерируемым"""
         if hasattr(data, '__iter__'):
@@ -196,7 +196,9 @@ if __name__ == '__main__':
     # ll.sort()
     # print(ll)
     # ll[1]=14
-    ll.insert(2,25)
+    # ll.insert(2,25)
+    # print(ll.index(4))
+    ll.remove(2)
     print(ll)
 
 
