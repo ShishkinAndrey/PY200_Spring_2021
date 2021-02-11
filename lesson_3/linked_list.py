@@ -127,9 +127,7 @@ class LinkedList:
             self.__len += 1
         elif 0 < index < (self.__len - 1):
             insert_node = self.Node(value)
-            prev_node = self.head
-            for _ in range(index-1):
-                prev_node = prev_node.next
+            prev_node = self.__step_by_step_to_node(index-1)
             next_node = prev_node.next
             self.__linked_nodes(prev_node, insert_node)
             self.__linked_nodes(insert_node, next_node)
@@ -198,6 +196,7 @@ if __name__ == '__main__':
     # ll.sort()
     # print(ll)
     # ll[1]=14
+    ll.insert(2,25)
     print(ll)
 
 
