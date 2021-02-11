@@ -90,7 +90,7 @@ class LinkedList:
         current_node = self.__step_by_step_to_node(key)
         current_node.value = value
 
-    def __check_index(self, index):
+    def __check_index(self, index) -> None:
         if not isinstance(index, int):
             raise TypeError()
         elif abs(index) > self.__len:
