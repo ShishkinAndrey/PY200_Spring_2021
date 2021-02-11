@@ -70,7 +70,7 @@ class LinkedList:
     def __len__(self):
         return self.__len
 
-    def __getitem__(self, item: int) -> Any:
+    def __getitem__(self, item: (int, slice)) -> Any:
         print('Вызван __getitem__')
         if isinstance(item, slice):
             start, stop, step = item.indices(len(self))
@@ -200,6 +200,4 @@ if __name__ == '__main__':
     # ll.insert(2,25)
     # print(ll.index(4))
     # ll.remove(2)
-    print(ll)
-
-
+    print(ll[2:5])
