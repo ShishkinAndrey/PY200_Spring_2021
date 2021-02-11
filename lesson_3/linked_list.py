@@ -80,33 +80,27 @@ class LinkedList:
         if isinstance(item, slice):
             start, stop, step = item.indices(len(self))
             return [self[i] for i in range(start, stop, step)]
-
-        elif isinstance(item, int):
-            if not isinstance(item, int):
-                raise TypeError()
-            elif abs(item) > self.__len:
-                raise IndexError()
-
-            current_node = self.head
-            if item >= 0:
-                for _ in range(item):
-                    current_node = current_node.next
-                return current_node.value
-            elif item < 0:
-                for _ in range(self.__len + item):
-                    current_node = current_node.next
-                return current_node.value
+        else:
+            self.__check_index(item)
+            current_node = self.__step_by_step_to_node(item)
+            return current_node.value
 
     def __setitem__(self, key, value):
-        if not isinstance(key, int):
-            raise TypeError()
-
-        if not 0 <= key < self.__len:
-            raise IndexError()
-        current_node = self.head
-        for _ in range(key):
-            current_node = current_node.next
+        self.__check_index(key)
+        current_node = self.__step_by_step_to_node(key)
         current_node.value = value
+
+    def __check_index(self, index):
+        if not isinstance(index, int):
+            raise TypeError()
+        elif abs(index) > self.__len:
+            raise IndexError()
+
+    def __step_by_step_to_node(self, index) -> 'Node':
+        current_node = self.head
+        for _ in range(index):
+            current_node = current_node.next
+        return current_node
 
     def __reversed__(self):
         for elem in self[::-1]:
@@ -202,13 +196,14 @@ class LinkedList:
 if __name__ == '__main__':
     ll = LinkedList([1,2, 3,4])
     # print(ll[::-1])
-    ll.append(5)
+    # ll.append(5)
     # print(ll)
-    ll.remove(3)
+    # ll.remove(3)
+    # print(ll)
+    # print(ll.index(5))
+    # ll.sort()
+    # print(ll)
+    ll[1]=14
     print(ll)
-    print(ll.index(5))
-    ll.sort()
-    print(ll)
-
 
 
