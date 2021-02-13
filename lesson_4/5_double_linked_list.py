@@ -234,3 +234,27 @@ class DoubleLinkedList(LinkedList):
             """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
             # ToDo перегрузить метод
             return f'Node({self.value}, next_={None}, prev={None})'
+
+    def __init__(self, data: Sequence = None):
+        """Конструктор двусвязного списка"""
+        super().__init__(data)
+
+    @staticmethod
+    def __linked_nodes(left: DoubleLinkedNode, right: Optional[DoubleLinkedNode]) -> None:
+        left.next = right
+        right.prev = left
+
+    def append(self, value: Any):
+        append_node = self.DoubleLinkedNode(value)
+        if self.head is None:
+            self.head = append_node
+            self.tail = append_node
+        else:
+            self.__linked_nodes(self.tail, append_node)
+            self.tail = append_node
+        self.__len += 1
+
+if __name__ == '__main__':
+    # l = LinkedList('abc')
+    ll = DoubleLinkedList('abcd')
+    print(ll)
