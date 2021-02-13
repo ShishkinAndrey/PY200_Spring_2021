@@ -29,18 +29,23 @@ class LinkedList:
     class Node:
         """
         Внутренний класс, класса LinkedList.
-
         Пользователь напрямую не работает с узлами списка, узлами оперирует список.
         """
+
         def __init__(self, value: Any, next_: Optional['Node'] = None):
             """
             Создаем новый узел для односвязного списка
-
             :param value: Любое значение, которое помещено в узел
             :param next_: следующий узел, если он есть
             """
             self.value = value
             self.next = next_  # Вызывается сеттер
+
+        def _check_node(self, node_):
+            if not isinstance(node_, self.__class__) and node_ is not None:
+                msg = f"Устанавливаемое значение должно быть экземпляром класса {self.__class__.__name__} " \
+                      f"или None, не {node_.__class__.__name__}"
+                raise TypeError(msg)
 
         @property
         def next(self):
@@ -50,15 +55,12 @@ class LinkedList:
         @next.setter
         def next(self, next_: Optional['Node']):
             """Setter проверяет и устанавливает следующий узел связного списка"""
-            if not isinstance(next_, self.__class__) and next_ is not None:
-                msg = f"Устанавливаемое значение должно быть экземпляром класса {self.__class__.__name__} " \
-                      f"или None, не {next_.__class__.__name__}"
-                raise TypeError(msg)
+            self._check_node(next_)
             self.__next = next_
 
         def __repr__(self):
             """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
-            return f"Node({self.value}, {self.next})"
+            return f"Node({self.value}, next_={None})"
 
         def __str__(self):
             """Вызывается функциями str, print и format. Возвращает строковое представление объекта."""
@@ -238,6 +240,9 @@ class DoubleLinkedList(LinkedList):
     def __init__(self, data: Sequence = None):
         """Конструктор двусвязного списка"""
         super().__init__(data)
+
+    def __len__(self):
+        return self.__len
 
     @staticmethod
     def __linked_nodes(left: DoubleLinkedNode, right: Optional[DoubleLinkedNode]) -> None:
