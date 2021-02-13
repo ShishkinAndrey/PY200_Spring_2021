@@ -212,6 +212,25 @@ class LinkedList:
         raise AttributeError(f'{data.__class__.__name__} is not iterable')
 
 
-class DoubleLinkedList(...):
-    class DoubleLinkedNode(...):
-        ...
+class DoubleLinkedList(LinkedList):
+    class DoubleLinkedNode(LinkedList.Node):
+        def __init__(self, value: Any,
+                     next_: Optional['Node'] = None,
+                     prev: Optional['Node'] = None):
+            # ToDo расширить возможности базового конструтора с учетом особенностей двусвязного списка
+            super().__init__(value, next_)
+            self.prev = prev
+
+        @property
+        def prev(self):
+            return self.__prev
+
+        @prev.setter
+        def prev(self, prev_node: Optional['Node']):
+            self._check_node(prev_node)
+            self.__prev = prev_node
+
+        def __repr__(self) -> str:
+            """Метод должен возвращать строку, показывающую, как может быть создан экземпляр."""
+            # ToDo перегрузить метод
+            return f'Node({self.value}, next_={None}, prev={None})'
