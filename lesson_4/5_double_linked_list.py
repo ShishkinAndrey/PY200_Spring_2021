@@ -248,6 +248,11 @@ class DoubleLinkedList(LinkedList):
         """Конструктор двусвязного списка"""
         super().__init__(data)
 
+    def __iter__(self):
+        print('Вызван метод __iter__')
+        value = self.__node_iterator()
+        return value
+
     @staticmethod
     def __linked_nodes(left: DoubleLinkedNode, right: Optional[DoubleLinkedNode]) -> None:
         left.next = right
@@ -294,12 +299,17 @@ class DoubleLinkedList(LinkedList):
         if not search_result:
             raise ValueError(f'{value} not in list')
 
+    def __node_iterator(self):
+        print('Вызван метод __node_iterator')
+        current_val = self.head
+        while current_val is not None:
+            yield current_val
+            current_val = current_val.next
+
 
 if __name__ == '__main__':
     ll = DoubleLinkedList('abcd')
-    # ll.insert(0, 'w')
-    # ll.insert(2, 'WW')
-    ll.remove('c')
-    print(ll)
+
+
 
 
