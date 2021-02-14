@@ -68,13 +68,21 @@ class LinkedList:
 
     def __init__(self, data: Sequence = None):
         """Конструктор связного списка"""
-        self.__len = 0
+        self._len = 0
         self.head = None  # Node
         self.tail = None
 
         if self.is_iterable(data):  # ToDo Проверить, что объект итерируемый. Метод self.is_iterable
             for value in data:
                 self.append(value)
+
+    @property
+    def _len(self):
+        return self.__len
+
+    @_len.setter
+    def _len(self, value):
+        self.__len = value
 
     def __str__(self):
         """Вызывается функциями str, print и format. Возвращает строковое представление объекта."""
@@ -89,13 +97,13 @@ class LinkedList:
     def __copy__(self):
         copy_list = []
         current_node = self.head
-        for _ in range(self.__len):
+        for _ in range(self._len):
             copy_list.append(current_node.value)
             current_node = current_node.next
         return copy_list
 
     def __len__(self):
-        return self.__len
+        return self._len
 
     def __getitem__(self, item: (int, slice)) -> Any:
         print('Вызван __getitem__')
@@ -104,22 +112,22 @@ class LinkedList:
             return [self[i] for i in range(start, stop, step)]
         else:
             self.__check_index(item)
-            current_node = self.__step_by_step_to_node(item)
+            current_node = self._step_by_step_to_node(item)
             return current_node.value
 
     def __setitem__(self, key, value):
         self.__check_index(key)
-        current_node = self.__step_by_step_to_node(key)
+        current_node = self._step_by_step_to_node(key)
         current_node.value = value
 
     def __check_index(self, index) -> None:
         print('Вызван __check_index')
         if not isinstance(index, int):
             raise TypeError()
-        elif abs(index) > self.__len:
+        elif abs(index) > self._len:
             raise IndexError()
 
-    def __step_by_step_to_node(self, index) -> 'Node':
+    def _step_by_step_to_node(self, index) -> 'Node':
         print('Вызван __step_by_step_to_node')
         current_node = self.head
         for _ in range(index):
@@ -140,7 +148,7 @@ class LinkedList:
             # ToDo Завести атрибут self.tail, который будет хранить последний узел
             self.__linked_nodes(self.tail, append_node)
             self.tail = append_node
-        self.__len += 1
+        self._len += 1
 
     @staticmethod
     def __linked_nodes(left: Node, right: Optional[Node]) -> None:
@@ -154,24 +162,23 @@ class LinkedList:
             first_node = self.Node(value)
             self.__linked_nodes(first_node, self.head)
             self.head = first_node
-            self.__len += 1
-        elif 0 < index < (self.__len - 1):
+            self._len += 1
+        elif 0 < index < (self._len - 1):
             insert_node = self.Node(value)
-            prev_node = self.__step_by_step_to_node(index-1)
+            prev_node = self._step_by_step_to_node(index - 1)
             next_node = prev_node.next
             self.__linked_nodes(prev_node, insert_node)
             self.__linked_nodes(insert_node, next_node)
-            self.__len += 1
-        elif index >= self.__len:
+            self._len += 1
+        elif index >= self._len:
             self.append(value)
 
     def clear(self) -> None:
         self.head = None
-        self.__len = 0
 
     def index(self, value: Any) -> int:
         current_node = self.head
-        for i in range(self.__len):
+        for i in range(self._len):
             if current_node.value == value:
                 return i
             else:
@@ -181,13 +188,13 @@ class LinkedList:
     def remove(self, value: Any) -> None:
         current_node = self.head
         search_result = False
-        for i in range(self.__len):
+        for i in range(self._len):
             if current_node.value == value:
-                left_node = self.__step_by_step_to_node(i-1)
+                left_node = self._step_by_step_to_node(i - 1)
                 next_node = current_node.next
                 current_node.value = None
                 self.__linked_nodes(left_node, next_node)
-                self.__len -= 1
+                self._len -= 1
                 search_result = True
                 break
             else:
@@ -200,7 +207,7 @@ class LinkedList:
         while correct_compare:
             correct_compare = False
             current_elem = self.head
-            for i in range(self.__len-1):
+            for i in range(self._len - 1):
                 if current_elem.value > current_elem.next.value:
                     current_elem.value, current_elem.next.value = current_elem.next.value, current_elem.value
                     correct_compare = True
@@ -241,9 +248,6 @@ class DoubleLinkedList(LinkedList):
         """Конструктор двусвязного списка"""
         super().__init__(data)
 
-    def __len__(self):
-        return self.__len
-
     @staticmethod
     def __linked_nodes(left: DoubleLinkedNode, right: Optional[DoubleLinkedNode]) -> None:
         left.next = right
@@ -257,9 +261,30 @@ class DoubleLinkedList(LinkedList):
         else:
             self.__linked_nodes(self.tail, append_node)
             self.tail = append_node
-        self.__len += 1
+        self._len += 1
+
+    def insert(self, index: int, value: Any):
+        insert_node = self.DoubleLinkedNode(value)
+        if index == 0:
+            self.__linked_nodes(insert_node, self.head)
+            self.head = insert_node
+            self._len += 1
+        elif 0 < index < self._len:
+
+            prev_node = next_node.prev
+            self.__linked_nodes(prev_node, insert_node)
+            self.__linked_nodes(insert_node, next_node)
+            self._len += 1
+        elif index >= self._len:
+            self.append(value)
+
+
 
 if __name__ == '__main__':
-    # l = LinkedList('abc')
     ll = DoubleLinkedList('abcd')
+    ll.insert(0, 'w')
+    ll.insert(2, 'WW')
     print(ll)
+
+
+    # ToDo: ПРОДОЛЖИТЬ !!! Разобраться с наследованием длины, так как она должна быть защищенной !!!!
