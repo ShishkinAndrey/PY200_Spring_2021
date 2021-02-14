@@ -278,13 +278,28 @@ class DoubleLinkedList(LinkedList):
         elif index >= self._len:
             self.append(value)
 
+    def remove(self, value: Any) -> None:
+        remove_node = self.head
+        search_result = False
+        for i in range(self._len):
+            if value == remove_node.value:
+                prev_node = remove_node.prev
+                next_node = remove_node.next
+                self.__linked_nodes(prev_node, next_node)
+                self._len -= 1
+                search_result = True
+                break
+            else:
+                remove_node = remove_node.next
+        if not search_result:
+            raise ValueError(f'{value} not in list')
 
 
 if __name__ == '__main__':
     ll = DoubleLinkedList('abcd')
-    ll.insert(0, 'w')
-    ll.insert(2, 'WW')
+    # ll.insert(0, 'w')
+    # ll.insert(2, 'WW')
+    ll.remove('c')
     print(ll)
 
 
-    # ToDo: ПРОДОЛЖИТЬ !!! Разобраться с наследованием длины, так как она должна быть защищенной !!!!
