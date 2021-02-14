@@ -81,8 +81,10 @@ class LinkedList:
         return self.__len
 
     @_len.setter
-    def _len(self, value):
-        self.__len = value
+    def _len(self, len_value):
+        if not isinstance(len_value, int):
+            raise TypeError()
+        self.__len = len_value
 
     def __str__(self):
         """Вызывается функциями str, print и format. Возвращает строковое представление объекта."""
@@ -309,6 +311,8 @@ class DoubleLinkedList(LinkedList):
 
 if __name__ == '__main__':
     ll = DoubleLinkedList('abcd')
+    ll.insert(2,'ww')
+    print(ll)
 
 
 
