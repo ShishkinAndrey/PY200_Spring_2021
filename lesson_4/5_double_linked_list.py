@@ -270,7 +270,7 @@ class DoubleLinkedList(LinkedList):
             self.head = insert_node
             self._len += 1
         elif 0 < index < self._len:
-
+            next_node = self._step_by_step_to_node(index)
             prev_node = next_node.prev
             self.__linked_nodes(prev_node, insert_node)
             self.__linked_nodes(insert_node, next_node)
