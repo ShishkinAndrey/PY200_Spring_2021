@@ -84,6 +84,8 @@ class LinkedList:
     def _len(self, len_value):
         if not isinstance(len_value, int):
             raise TypeError()
+        elif len_value < 0:
+            raise ValueError()
         self.__len = len_value
 
     def __str__(self):
@@ -126,7 +128,7 @@ class LinkedList:
         print('Вызван __check_index')
         if not isinstance(index, int):
             raise TypeError()
-        elif abs(index) > self._len:
+        elif abs(index) >= self._len:
             raise IndexError()
 
     def _step_by_step_to_node(self, index) -> 'Node':
