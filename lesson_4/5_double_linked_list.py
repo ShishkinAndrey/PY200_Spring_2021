@@ -314,9 +314,10 @@ class DoubleLinkedList(LinkedList):
 
 if __name__ == '__main__':
     ll = LinkedList('abcd')
-    iter(ll)
+    # l = iter(ll)
     # ll.insert(2,'ww')
-    print(ll[1])
+    for i in ll:
+        print(i)
 
 
 
