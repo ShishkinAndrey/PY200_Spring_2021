@@ -209,8 +209,10 @@ class LinkedList:
             if current_node.value == value:
                 left_node = self._step_by_step_to_node(i - 1)
                 next_node = current_node.next
-                current_node.value = None
-                self.__linked_nodes(left_node, next_node)
+                if i == 0:
+                    self.head = next_node
+                else:
+                    self.__linked_nodes(left_node, next_node)
                 self._len -= 1
                 search_result = True
                 break
@@ -265,10 +267,14 @@ class DoubleLinkedList(LinkedList):
         """Конструктор двусвязного списка"""
         super().__init__(data)
 
-    @staticmethod
-    def __linked_nodes(left: DoubleLinkedNode, right: Optional[DoubleLinkedNode]) -> None:
-        left.next = right
-        right.prev = left
+    def __linked_nodes(self, left: DoubleLinkedNode, right: Optional[DoubleLinkedNode]) -> None:
+        if not right:
+            self.tail = left
+        elif not left:
+            self.head = right
+        else:
+            left.next = right
+            right.prev = left
 
     def append(self, value: Any):
         append_node = self.DoubleLinkedNode(value)
@@ -296,29 +302,26 @@ class DoubleLinkedList(LinkedList):
             self.append(value)
 
     def remove(self, value: Any) -> None:
-        remove_node = self.head
         search_result = False
-        for i in range(self._len):
-            if value == remove_node.value:
-                prev_node = remove_node.prev
-                next_node = remove_node.next
+        for current_value in self.__iter__():
+            if value == current_value.value:
+                prev_node = current_value.prev
+                next_node = current_value.next
                 self.__linked_nodes(prev_node, next_node)
                 self._len -= 1
                 search_result = True
                 break
-            else:
-                remove_node = remove_node.next
         if not search_result:
             raise ValueError(f'{value} not in list')
 
 
 
 if __name__ == '__main__':
-    ll = LinkedList('abcd')
+    ll = LinkedList('abcdtskl')
     # l = iter(ll)
     # ll.insert(2,'ww')
-    print(ll[-4])
-
+    ll.remove('b')
+    print(ll)
 
 
 
