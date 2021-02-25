@@ -115,6 +115,7 @@ class LinkedList:
             start, stop, step = item.indices(len(self))
             return [self[i] for i in range(start, stop, step)]
         else:
+            item = self.__len + item if item < 0 else item
             self.__check_index(item)
             current_node = self._step_by_step_to_node(item)
             return current_node.value
@@ -316,8 +317,7 @@ if __name__ == '__main__':
     ll = LinkedList('abcd')
     # l = iter(ll)
     # ll.insert(2,'ww')
-    for i in ll:
-        print(i)
+    print(ll[-4])
 
 
 
